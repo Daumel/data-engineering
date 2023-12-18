@@ -19,27 +19,21 @@ public class WikimediaChangeHandler implements EventHandler {
     }
 
     @Override
-    public void onOpen() {
-        // Nothing to do here
-    }
+    public void onOpen() {}
 
     @Override
     public void onClosed() {
-        // TODO: Close the kafka producer
-        // ...
+        kafkaProducer.close();
     }
 
     @Override
     public void onMessage(String event, MessageEvent messageEvent) {
         log.info(messageEvent.getData());
-        // TODO: Send the message to the kafka cluster
-        // ...
+        kafkaProducer.send(new ProducerRecord<>(topic, messageEvent.getData()));
     }
 
     @Override
-    public void onComment(String comment) {
-        // Nothing to do here
-    }
+    public void onComment(String comment) {}
 
     @Override
     public void onError(Throwable t) {
